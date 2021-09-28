@@ -1,0 +1,61 @@
+---
+title: "p8105_hw1_jw4183"
+author: "Jiacjeng Wu"
+date: "9/27/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## P1
+
+```{r}
+set.seed(1)
+df = tibble(
+    x = rnorm(10, mean = 100, sd= 5),
+    y = c(TRUE, TRUE,TRUE,TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
+    z = c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"),
+    w = factor(c("top", "bottom", "medium", "bottom", "top", "top", "medium", "bottom", "top", "top"))
+)
+
+var_x = pull(df, var = 1, name = x)
+mean_x = mean(var_x)
+var_y = pull(df, var = 2, name = y)
+mean_y = mean(var_y)
+var_z = pull(df, var = 3, name = z)
+mean_z = mean(var_z)
+var_w = pull(df, var = 4, name = w)
+mean_w = mean(var_w)
+
+as.numeric(var_y)
+as.numeric(var_z)
+as.numeric(var_w)
+```
+
+The data frame created is a tibble named df which contains 4 variables: x, y, z, and w. 
+
+The mean of of x is `r mean_x`. The mean of y is `r mean_y`. The means of z and w cannot be computed. 
+
+The as.numeric function works for variables y and w but not for variable z. This is somewhat consistent with the fact that z and w fail to produce a mean value. Variable z is neither numerical nor logical. An interesting find is that although variable w's mean cannot be outputed, it can be converted into numeric values, in which the three levels are coded by 1, 2, and 3.
+
+
+## P2 
+```{r}
+data("penguins", package = "palmerpenguins")
+flipper_l = pull(penguins, var = 5, name = flipper_length_mm)
+plot_df = tibble(
+    x = pull(penguins, var = 3, name = bill_length_mm),
+    y = flipper_l 
+)
+ggplot(plot_df, aes(x = x, y = y, color = species)) + geom_point(color = "blue")
+ggsave("myplot_plot_df.png")
+```
+
+The data frame is a tibble that consists of `r nrow(penguins)` rows and `r ncol(penguins)` columns. 
+
+The mean flipper length is `r mean(flipper_l, na.rm = TRUE)`.
+
+The items in the data frame can be summarized by the following: `r summary(penguins)`
